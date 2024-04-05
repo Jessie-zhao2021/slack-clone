@@ -2,20 +2,36 @@ import React, { useEffect, useState } from 'react';
 import './Sidebar.css';
 import SidebarOption from './SidebarOption'
 import { Add, Apps, BookmarkBorder, Create, Drafts, ExpandLess, ExpandMore, FiberManualRecord, FileCopy, Inbox, InsertComment, People, PeopleAlt } from '@mui/icons-material';
-import db from ".firebase";
+import db from "../firebase";
+import { collection, doc, onSnapshot, query } from "firebase/firestore"; 
+
 
 function Sidebar() {
   const [channels, setChannels] = useState([]);
 
   useEffect(() => {
-    db.collection('rooms').onSnapshot(snapshot => (
-      setChannels(
-        snapshot.docs.map((doc) => ({
-          id: doc.id,
-          name: doc.data().name,
-        }))
-      )
-    ))
+    const roomsQuery = query(collection(db, "rooms"));
+
+    onSnapshot(roomsQuery, (result) => {
+      const rooms = [];
+      console.log('roomsQuery:', roomsQuery)
+      console.log('result:', result)
+      result.forEach((doc) => (rooms.push({
+        id: doc.id,
+        name: doc.data().name,
+      })));
+      
+      setChannels(rooms)
+    });
+
+    // db.collection('rooms').onSnapshot(snapshot => (
+    //   setChannels(
+    //     snapshot.docs.map((doc) => ({
+    //       id: doc.id,
+    //       name: doc.data().name,
+    //     }))
+    //   )
+    // ))
   }, [])
 
   return (
@@ -45,7 +61,9 @@ function Sidebar() {
       <SidebarOption Icon={Add} title="Add Channel" />
       {/* Connect to dB and list all the channels */}
       {/* <SidebarOption ... /> */}
-
+      {channels.map(channel => (
+        <SidebarOption title={channel.name} id={channel.id} />
+      ))}
     </div>
   )
 }
