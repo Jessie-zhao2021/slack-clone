@@ -14,8 +14,8 @@ function Sidebar() {
 
     onSnapshot(roomsQuery, (result) => {
       const rooms = [];
-      console.log('roomsQuery:', roomsQuery)
-      console.log('result:', result)
+      // console.log('roomsQuery:', roomsQuery)
+      // console.log('result:', result)
       result.forEach((doc) => (rooms.push({
         id: doc.id,
         name: doc.data().name,
@@ -41,7 +41,7 @@ function Sidebar() {
           <h2>Clever Programmer</h2>
           <h3>
             <FiberManualRecord className='dot'/>
-            Rafeh Qazi
+            Jessie Zhao
           </h3>
         </div>
         <Create className='create__pen'/>
@@ -58,7 +58,7 @@ function Sidebar() {
       <hr/>
       <SidebarOption Icon={ExpandMore} title="Channels" />
       <hr/>
-      <SidebarOption Icon={Add} title="Add Channel" />
+      <SidebarOption Icon={Add} title="Add Channel" addChannelOption='true'/>
       {/* Connect to dB and list all the channels */}
       {/* <SidebarOption ... /> */}
       {channels.map(channel => (

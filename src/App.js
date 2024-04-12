@@ -1,19 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import Header from './components/Header'
+import Header from './components/Header';
 import Sidebar from './components/Sidebar';
+import Chat from './components/Chat';
+import Login from './components/Login';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 function App() {
+  const [user, setUser] = useState(null);
+
   return (
     <div className="App">
-     <h1>Hello Clever Programmer...Let's build the Slack Clone🚀</h1>
-     {/* Header */}
-     <Header />
-     <div className='app_body'>
-        <Sidebar />
-        {/* React-Router -> Chat screen */}
-     </div>
-  
+      <Router>
+        {!user ? (<Login />) : (
+          <>
+            <Header />
+            <div className='app__body'>
+              <Sidebar />            
+              <Routes>
+                <Route path="/room/:roomId" element={<Chat />} />
+                <Route path='/' element={<h1>Welcome</h1>} />
+              </Routes>           
+            </div>
+          </>
+        )}
+       
+     </Router>
     </div>
   );
 }
