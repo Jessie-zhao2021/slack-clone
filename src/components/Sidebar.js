@@ -4,10 +4,13 @@ import SidebarOption from './SidebarOption'
 import { Add, Apps, BookmarkBorder, Create, Drafts, ExpandLess, ExpandMore, FiberManualRecord, FileCopy, Inbox, InsertComment, People, PeopleAlt } from '@mui/icons-material';
 import db from "../firebase";
 import { collection, doc, onSnapshot, query } from "firebase/firestore"; 
+import { useStateValue } from './StateProvider';
+
 
 
 function Sidebar() {
   const [channels, setChannels] = useState([]);
+  const [{user}] = useStateValue();
 
   useEffect(() => {
     const roomsQuery = query(collection(db, "rooms"));
@@ -41,7 +44,7 @@ function Sidebar() {
           <h2>Clever Programmer</h2>
           <h3>
             <FiberManualRecord className='dot'/>
-            Jessie Zhao
+            {user?.displayName}
           </h3>
         </div>
         <Create className='create__pen'/>

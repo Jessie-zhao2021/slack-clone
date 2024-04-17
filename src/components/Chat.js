@@ -5,6 +5,7 @@ import { InfoOutlined, Message, StarBorderOutlined } from '@mui/icons-material';
 import db from "../firebase";
 import { getDoc, doc, collection, onSnapshot, query, orderBy} from "firebase/firestore"; 
 import Messages from './Messages';
+import ChatInput from './ChatInput';
 
 
 function Chat() {
@@ -71,6 +72,7 @@ function Chat() {
                 />
             ))}
         </div>
+        {roomDetails && <ChatInput channelName ={roomDetails.name} channelId={roomId}/>}
     </div>
   )
 }
